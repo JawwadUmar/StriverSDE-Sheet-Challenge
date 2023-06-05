@@ -1,0 +1,33 @@
+#include <bits/stdc++.h>
+
+void setZeros(vector<vector<int>> &matrix)
+{
+	int n = matrix.size();
+	int m = matrix[0].size();
+
+	unordered_set<int> st1;
+	unordered_set<int> st2;
+
+	for(int i=0; i<n; i++){
+		for(int j=0; j<m; j++){
+			if(matrix[i][j]==0){
+				st1.insert(i);
+				st2.insert(j);
+			}		
+			}
+	}
+
+	for(auto it: st1){
+		//convert row it to 0
+		for(int j=0; j<m; j++){
+			matrix[it][j] = 0;
+		}
+	}
+
+	for(auto it: st2){
+		//convert col it to 0
+		for(int i=0; i<n; i++){
+			matrix[i][it] = 0;
+		}
+	}
+}
