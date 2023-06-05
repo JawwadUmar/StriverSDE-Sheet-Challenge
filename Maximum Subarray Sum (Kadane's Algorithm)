@@ -1,0 +1,17 @@
+#include <bits/stdc++.h> 
+long long maxSubarraySum(int arr[], int n)
+{
+    //Kadane's Algorithm
+    long long int curr = arr[0];
+    long long int res = 0;
+
+    for(int i=1; i<n; i++){
+        curr = max((long long) arr[i], curr+arr[i]);
+        res = max(res, curr);
+    }
+
+  
+    
+
+    return res;
+}
