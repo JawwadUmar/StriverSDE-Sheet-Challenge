@@ -1,0 +1,37 @@
+#include <bits/stdc++.h>
+
+vector<vector<long long int>> printPascal(int n) 
+{
+  vector<vector<long long int>> res;
+  res.push_back({1});
+
+  if(n==1){
+    return res;
+  }
+
+//   res.push_back({1, 1});
+//   if(n==2){
+//     return res;
+//   }
+
+  int h = 2;
+  while(h<=n){
+  vector<long long int> curr;
+  int prev = 0;
+  int next = 1;
+  for(int i=0; i<h; i++){
+    if(i==0 || i==h-1){
+      curr.push_back(1);
+      continue;
+    }
+
+    curr.push_back(res.back()[prev] + res.back()[next]);
+    next++;
+    prev++;
+  }
+
+  res.push_back(curr);
+  h++;
+}
+return res;
+}
