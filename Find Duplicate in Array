@@ -1,0 +1,26 @@
+#include <bits/stdc++.h>
+
+int findDuplicate(vector<int> &arr, int n){
+	// integers from 1 to n-1 in an array of size n
+	//1 element surely repeated
+
+	
+	int slow = arr[0];
+	int fast = arr[0];
+
+	slow = arr[slow];
+	fast = arr[arr[fast]];
+
+	while(slow != fast){
+		slow = arr[slow];
+		fast = arr[arr[fast]];
+	}
+
+	fast = arr[0];
+
+	while(slow != fast){
+		slow = arr[slow];
+		fast = arr[fast];
+	}
+	return slow;
+}
