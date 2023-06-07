@@ -1,0 +1,51 @@
+bool searchMatrix(vector<vector<int>>& mat, int target) {
+    //find the row first
+    //first element of ith row ---> mat[i][0];
+
+    int n = mat.size();
+    int m = mat[0].size();
+
+    int low = 0;
+    int high = n-1;
+    int row = 0;
+
+    while(high>=low){
+        int mid = (low+high)/2;
+
+        if(mat[mid][0] <= target){
+            row = mid;
+            low = mid+1;
+        }
+
+        else{
+            high = mid-1;
+        }
+    }
+
+    //   cout<<row<<endl;
+
+    // we have to search in that row ---> mat[row][j];
+    
+    low = 0;
+    high = m-1;
+
+     while(high>=low){
+        int mid = (low+high)/2;
+
+        if(mat[row][mid] == target){
+            // cout<<mid<<endl;
+            return  true;
+        }
+
+        else if(mat[row][mid] < target){
+            low = mid+1;
+        }
+
+        else{
+            high = mid-1;
+        }
+    }
+
+    return false;
+
+}
