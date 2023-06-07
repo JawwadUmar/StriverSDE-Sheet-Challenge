@@ -1,0 +1,24 @@
+#include <bits/stdc++.h>
+
+long long int f(int x, int n, int m){
+	if(n == 0){
+		return 1;
+	}
+
+	if(x ==0 || x==1){
+		return x;
+	}
+
+	long long int y = f(x, n/2, m);
+
+	if(n%2 ==0){
+		return (y * y)%m;
+	}
+
+	return (((x%m) * (y)%m)* (y))%m;
+}
+int modularExponentiation(int x, int n, int m) {
+	// Write your code here.
+
+	return f(x, n, m)%m;
+}
