@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+
+pair<int,int> missingAndRepeating(vector<int> &arr, int n)
+{
+	//Two odds occuring approach
+	int x = 0;
+
+	for(auto it: arr){
+		x = x^it;
+	}
+
+	for(int i = 1; i<=n; i++){
+		x = x^i;
+	}
+
+	//resultant x is xor of missing no and repeating no
+
+	//rightmost set bit of x is where one had 0 and other had 1
+	//no whose rightmost set bit is same as x and all other bit set as zero
+
+	int k = x&~(x-1);
+
+	x = 0;
+	int y = 0;
+	for(int i = 1; i<=n; i++){
+		if((i&k)==0){
+			x = x^i;
+		}
+
+		else{
+			y = y^i;
+		}
+	}
+
+	for(auto it: arr){
+		if((it&k) ==0){
+			x = x^it;
+		}
+		else{
+			y = y^it;
+		}
+	}
+
+	//x and y are missing and repeating
+
+	for(int i = 0; i<n; i++){
+		if(arr[i] ==x){
+        return { y, x };
+    }
+	}
+
+	return {x,y};
+}
