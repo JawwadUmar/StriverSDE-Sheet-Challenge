@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+
+int findMajorityElement(int a[], int n) {
+	//Moore's Voting Algorithm to find the majority element without extra space
+    int element;
+    int cnt = 0;
+
+    for(int i=0; i<n; i++){
+        if(cnt ==0){
+            element = a[i];
+            cnt++;
+        }
+
+        else{
+            if(a[i] ==element){
+                cnt++;
+            }
+
+            else{
+                cnt--;
+            }
+        }
+    }
+
+    //verify if element is the majority element
+    cnt = 0;
+    for(int i =0; i<n; i++){
+        if(a[i] ==element){
+            cnt++;
+        }
+    }
+
+    if(cnt> n/2){
+        return element;
+    }
+
+    return -1;
+}
