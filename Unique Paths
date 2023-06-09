@@ -1,0 +1,16 @@
+#include <bits/stdc++.h> 
+	int uniquePaths(int m, int n) {
+		//(m+n-2)c(n-1);
+
+		long long int x = n+m-2;
+		long long int num = 1;
+		long long int den = 1;
+
+		for(int i =1; i<=n-1; i++){
+			den = den * i;
+			num = num * x;
+			x--;
+		}
+
+		return num/den;
+	}
