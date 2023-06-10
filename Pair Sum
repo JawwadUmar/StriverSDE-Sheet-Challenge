@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+
+vector<vector<int>> pairSum(vector<int> &arr, int s){
+   // Write your code here.
+   sort(arr.begin(), arr.end());
+   map<int, int> mp;
+
+   for(auto it: arr){
+      mp[it]++;
+   }
+
+   int n = arr.size();
+   int low = 0;
+   int high = n-1;
+   vector<vector<int>> res;
+
+   for(int i = 0; i<n; i++){
+      //find s - arr[i]
+      int num = s - arr[i];
+      if(num != arr[i]){
+         if(mp[num]){
+            int j = mp[num];
+            while(j--){
+               if(arr[i] < num){
+                 res.push_back({arr[i], num});
+               }
+            }
+         }
+      }
+
+      else if(num ==arr[i]){
+         if(mp[num]> 1){
+            int k = mp[num];
+            int j = (k*(k-1))/2;
+            while(j--){
+            res.push_back({arr[i], num});
+            }
+         }
+         mp[num] = 0;
+      }
+   }
+   return res;
+}
