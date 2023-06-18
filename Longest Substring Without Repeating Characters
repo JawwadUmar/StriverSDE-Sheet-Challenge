@@ -1,0 +1,28 @@
+#include <bits/stdc++.h> 
+int uniqueSubstrings(string s)
+{
+    unordered_set<char> st;
+    
+    int l = 0;
+    int r = 0;
+    int len = 0;
+    int res = INT_MIN;
+    int n = s.size();
+
+    for(r =0; r<n; r++){
+        auto it = st.find(s[r]);
+
+        if(it != st.end()){
+            while(l<r && st.find(s[r])!= st.end()){
+                    st.erase(s[l]);
+                    l++;
+            }
+        }
+
+        len = r - l + 1;
+        res = max(len, res);
+        st.insert(s[r]);
+    }
+
+    return res;
+}
