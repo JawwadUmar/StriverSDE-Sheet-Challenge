@@ -1,0 +1,67 @@
+#include <bits/stdc++.h> 
+
+ bool f(long long ans, int m, vector<int> a){
+    int n = a.size();
+	long long days = 1;
+	long long curr = ans;
+
+	for(int i=0; i<a.size(); i++){
+        // cout<<a[i]<<" "<<curr<<endl;
+		if(a[i]>ans){
+			return false;
+		}
+		if(a[i] > curr){
+			curr = ans;
+            curr = curr-a[i];
+            // cout<<curr<<" hlh"<<endl;
+			days++;
+			
+		}
+
+		else{
+			curr = curr - a[i];
+            // cout<<"curr"<<" "<<curr<<endl;
+		}
+		
+	}
+
+    // cout<<days<<endl;
+
+
+	if(days> m){
+		return false;
+	}
+
+	return true;
+}
+
+long long ayushGivesNinjatest(int m, int n, vector<int> time) 
+{	
+	long long int sum = 0;
+	for(auto it: time){
+		sum+=it;
+	}
+
+	// cout<<n<<" "<<m<<endl;
+
+	//binary search from 0 to sum+1;
+
+	long long low = 1;
+	long long high = sum+1;
+	long long ans = -1;
+
+	while(high>=low){
+		long long mid = (high+low)/2;
+		
+		if(f(mid, m, time)){
+			ans = mid;
+			high = mid-1;
+		}
+
+		else{
+			low = mid+1;
+		}
+	}
+
+	return ans;
+}
