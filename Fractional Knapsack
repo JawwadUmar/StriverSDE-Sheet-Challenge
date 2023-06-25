@@ -1,0 +1,48 @@
+#include <bits/stdc++.h> 
+
+static bool flag(pair<int, int> p1, pair<int, int> p2){
+    double a1 = p1.second;
+    double a2 = p1.first;
+
+    double a3 = a1/a2;
+
+    double b1 = p2.second;
+    double b2 = p2.first;
+
+    double b3 = b1/b2;
+
+    if(a3>=b3){
+        return  true;
+    }
+
+    return false;
+}
+double maximumValue (vector<pair<int, int>>& items, int n, int w)
+{
+    // Write your code here.
+    // ITEMS contains {weight, value} pairs.
+    sort(items.begin(), items.end(), flag);
+    double res = 0;
+
+    // for(auto it: items){
+    //     cout<<it.second<<" "<<it.first<<endl;
+    // }
+
+    for(int i=0; i<items.size(); i++){
+        int value = items[i].second;
+        int wt = items[i].first;
+        double per = ((double)value)/((double) wt);
+
+        if(wt<= w){
+            res+= value;
+            w = w-wt;
+        }
+
+        else{
+            res+= per* (double)w;
+            break;
+        }
+    }
+
+    return res;
+}
