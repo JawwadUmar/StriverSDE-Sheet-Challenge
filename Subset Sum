@@ -1,0 +1,23 @@
+#include <bits/stdc++.h>
+
+void f(int idx, int sum,  vector<int> &a, vector<int> &res){
+	int n= a.size();
+	if(idx==n){
+		res.push_back(sum);
+		return;
+	}
+
+	sum+= a[idx];
+	f(idx+1, sum, a, res);
+
+	sum-=a[idx];
+	f(idx+1, sum, a, res);
+}
+
+vector<int> subsetSum(vector<int> &a){
+	// Write your code here.
+	vector<int> res;
+	f(0, 0, a, res);
+	sort(res.begin(), res.end());
+	return  res;	
+}
