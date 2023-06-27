@@ -1,0 +1,30 @@
+#include <bits/stdc++.h> 
+
+void f (int idx, vector<int> ds, vector<int> a, set<vector<int>> &res){
+    int n = a.size();
+
+    if(idx ==n){
+        sort(ds.begin(), ds.end());
+        res.insert(ds);
+        return;
+    }
+
+    ds.push_back(a[idx]);
+    f(idx+1, ds, a, res);
+
+    ds.pop_back();
+    f(idx+1, ds, a, res);
+}
+vector<vector<int>> uniqueSubsets(int n, vector<int> &a)
+{
+    set<vector<int>> st;
+    vector<int> ds;
+    f(0, ds, a, st);
+
+    vector<vector<int>> res;
+    for(auto it: st){
+        res.push_back(it);
+    }
+    
+    return res;
+}
