@@ -1,0 +1,53 @@
+bool possible(int r, int c, int val, int matrix[9][9]){
+
+    for(int i=0; i<9; i++){
+        if(matrix[i][c] ==val){
+            return false;
+        }
+
+        if(matrix[r][i] ==val){
+            return false;
+        }
+
+        int row = 3*(r/3) + i/3;
+        int col = 3*(c/3) + i%3;
+
+        if(matrix[row][col] ==val){
+            return false;
+        }
+    }
+
+
+    return true;
+}
+
+bool f(int matrix[9][9]){
+
+    for(int i=0; i<9; i++){
+        for(int j=0; j<9; j++){
+
+            if(matrix[i][j] ==0){
+
+                for(int val = 1; val<=9; val++){
+                if(possible(i, j, val, matrix)){
+                    matrix[i][j] = val;
+                    bool check = f(matrix);
+                    if(check == true){
+                        return true;
+                    }
+                    matrix[i][j] = 0;
+                }
+            }
+
+            return false;
+            }
+ 
+        }
+    }
+
+    return true;
+}
+
+bool isItSudoku(int matrix[9][9]) {
+    return f(matrix);
+}
