@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+int f(int mid, vector<int> a){
+        int res = 0;
+        
+        auto it = upper_bound(a.begin(), a.end(), mid);
+        if(it ==a.end()){
+            return a.size();
+        }
+        
+        return it-a.begin();
+        
+    }
+
+
+int getMedian(vector<vector<int>> &matrix)
+{
+      int n = matrix.size();
+      int m = matrix[0].size();
+      int high = 1e6;
+      int low = 1;
+        
+        while(high>= low){
+            int mid = (low+high)/2;
+            
+            //find no of numbers smaller than equal to mid
+            int cnt = 0;
+            for(int i=0; i<n; i++){
+                cnt+= f(mid, matrix[i]);
+            }
+            
+            if(cnt <= (n*m)/2){
+                low = mid+1;
+            }
+            
+            else{
+                high = mid-1;
+            }
+        }
+        
+        return low;
+}
