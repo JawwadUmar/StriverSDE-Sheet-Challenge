@@ -1,0 +1,55 @@
+#include <bits/stdc++.h> 
+
+bool f(int ans, vector<int> a, int n, int c){
+
+	int cnt = 0;
+	//if ans is possible 
+	int last;
+
+	for(int i=0; i<a.size(); i++){
+		if(i==0){
+			cnt++;
+			last = a[0];
+			continue;
+		}
+
+		if(a[i] - last >= ans){
+			cnt++;
+			last = a[i];
+		}
+
+		if(cnt>=c){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+int chessTournament(vector<int> a , int n ,  int c){
+   //C CHESS PLAYERS
+   //N FREE ROOMS
+   //OVERALL FOCUS AS HIGH AS POSSIBLE
+
+   sort(a.begin(), a.end());
+
+   int res = 0;
+
+   int high = 1e9;
+   int low = 0;
+
+   while(high>=low){
+	   int mid = (high+low)/2;
+
+	   if(f(mid, a, n, c)){
+		   low = mid+1;
+		   res = mid;
+	   }
+
+	   else{
+		   high = mid-1;
+	   }
+   }
+
+   return res;
+}
