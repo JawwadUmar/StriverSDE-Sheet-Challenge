@@ -1,0 +1,22 @@
+#include <bits/stdc++.h> 
+vector<vector<int>> pwset(vector<int>v)
+{
+    int n = v.size();
+    vector<vector<int>> res;
+
+    for(int i=0; i<pow(2, n); i++){
+        vector<int> a;
+        for(int j = 0; j<n; j++){
+
+            int x = 1<<j;
+
+            if(i&x){
+                a.push_back(v[j]);
+            }
+        }
+
+        res.push_back(a);
+    }
+
+    return res;
+}
