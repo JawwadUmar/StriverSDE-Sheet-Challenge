@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+void findMedian(int *arr, int n)
+{
+    multiset<int> m;
+    auto it = m.begin();
+    for(int i=0; i<n; i++){
+        if(i==0){
+            cout<<arr[i]<<" ";
+            m.insert(arr[i]);
+            it = m.begin();
+            continue;
+        }
+
+        else if(i%2){
+            m.insert(arr[i]);
+            if(arr[i]>=*it){
+                auto pt = it;
+                pt++;
+
+                cout<<(*it+*pt)/2<<" ";;
+                it = pt;
+            }
+
+            else{
+                auto pt = it;
+                pt--;
+                cout<<(*it+*pt)/2<<" ";
+
+
+            }
+        }
+
+        else{
+            m.insert(arr[i]);
+            if(arr[i]>=*it){
+
+                cout<<*it<<" ";;
+            }
+
+            else{
+                auto pt = it;
+                pt--;
+                cout<<*pt<<" ";
+                it = pt;
+
+            }
+        }
+
+    }
+}
