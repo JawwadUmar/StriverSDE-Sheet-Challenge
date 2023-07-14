@@ -1,0 +1,61 @@
+// Stack class.
+class Stack {
+    
+public:
+
+vector<int> a;
+int n;
+int idx;
+    
+    Stack(int capacity) {
+        // Write your code here.
+        n = capacity;
+        idx = -1;
+        a.resize(n, 0);
+    }
+
+    void push(int num) {
+        // Write your code here.
+        if(idx ==n-1){
+        return;
+        }
+        idx++;
+        a[idx] = num;
+    }
+
+    int pop() {
+        // Write your code here.
+        if(idx ==-1){
+            return -1;
+        }
+        int k = a[idx];
+        idx--;
+        return k;
+    }
+    
+    int top() {
+        // Write your code here.
+        if(idx ==-1){
+            return -1;
+        }
+        return a[idx];
+    }
+    
+    int isEmpty() {
+        // Write your code here.
+        if(idx ==-1){
+            return 1;
+        }
+        return  0;
+    }
+    
+    int isFull() {
+        // Write your code here.
+        if(idx ==n-1){
+            return  1;
+        }
+
+        return  0;
+    }
+    
+};
