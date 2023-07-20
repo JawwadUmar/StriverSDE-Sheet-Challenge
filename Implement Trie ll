@@ -1,0 +1,97 @@
+#include <bits/stdc++.h> 
+
+class Node{
+    public:
+    Node* children[26];
+    bool isTerminal;
+    int cnt1;
+    int cnt2;
+
+    bool contains(char ch){
+        int idx = ch-'a';
+
+        if(children[idx] != NULL){
+            return true;
+        }
+        return false;
+    }
+
+    Node* next(char ch){
+        int idx = ch-'a';
+        return children[idx];
+    }
+
+    Node(){
+        for(int i=0; i<26; i++){
+            children[i] = NULL;
+        }
+        cnt1 = 0;
+        cnt2 = 0;
+    }
+    
+};
+class Trie{
+    public:
+    Node* root;
+
+    Trie(){
+        // Write your code here.
+        root = new Node();
+    }
+
+    void insert(string &word){
+        Node* temp =root;
+
+        for(int i=0; i<word.size(); i++){
+            if(temp->contains(word[i]) ==false){
+                int idx = word[i] -'a';
+                temp->children[idx] = new Node();
+            }
+            temp->cnt2+=1;
+            temp = temp->next(word[i]);
+        }
+        temp->cnt1+=1;
+        temp->cnt2+=1;
+        temp->isTerminal = true;
+    }
+
+    int countWordsEqualTo(string &word){
+        Node* temp = root;
+
+        for(int i=0; i<word.size(); i++){
+            if(temp->contains(word[i]) ==false){
+                return 0;
+            }
+            temp = temp->next(word[i]);
+        }
+        return temp->cnt1;
+    }
+
+    int countWordsStartingWith(string &word){
+        Node* temp = root;
+
+        for(int i=0; i<word.size(); i++){
+            if(temp->contains(word[i]) ==false){
+                return 0;
+            }
+            temp = temp->next(word[i]);
+        }
+        return temp->cnt2;
+    }
+
+    void erase(string &word){
+        Node* temp = root;
+
+        for(int i=0; i<word.size(); i++){
+            if(temp->contains(word[i]) ==false){
+                return;
+            }
+            else{
+                temp->cnt2--;
+            }
+            temp = temp->next(word[i]);
+        }
+        temp->cnt1--;
+        temp->cnt2--;
+    }
+};
