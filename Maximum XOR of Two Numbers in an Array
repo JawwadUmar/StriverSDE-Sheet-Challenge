@@ -1,0 +1,120 @@
+#include <bits/stdc++.h> 
+
+class Node{
+    public:
+    Node* links[2];
+
+    bool contains(int bit){
+        return links[bit]!= NULL;
+    }
+
+    Node* next(int bit){
+        return links[bit];
+    } 
+};
+
+class Trie{
+    public:
+    Node* root;
+
+    Trie(){
+        root = new Node();
+    }
+
+    void insert(int num){
+        Node* temp = root;
+
+        for(int i=31; i>=0; i--){
+            int bit = (num>>i)&1;
+            int req = 1-bit;
+
+            if(temp->contains(bit) ==false){
+                temp->links[bit] =new Node();
+            }
+            temp = temp->next(bit);
+        }
+    }
+
+    void erase(int num) {
+        Node* temp = root;
+        vector<Node*> path; // To keep track of the path from root to the node to be erased
+
+        // Step 1: Traverse the trie to find the node to be erased
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+
+            if (temp->contains(bit)) {
+                path.push_back(temp);
+                temp = temp->next(bit);
+            } else {
+                // If the number is not present in the trie, we simply return
+                return;
+            }
+        }
+
+        // Step 2: The node to be erased is found, now we remove it
+        temp = root;
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            temp = temp->next(bit);
+
+            if (i == 0 || !temp->contains(1 - bit)) {
+                // If we are at the last bit or the next bit (1-bit) is not present in the trie,
+                // we can safely remove the current node from its parent
+                path.back()->links[bit] = NULL;
+                break;
+            }
+            path.push_back(temp); // Continue along the path
+        }
+
+        // Step 3: Clean up the nodes that are no longer part of a valid path
+        for (int i = path.size() - 1; i >= 0; i--) {
+            if (path[i]->links[0] != NULL || path[i]->links[1] != NULL) {
+                // If the current node has at least one child, we stop the cleanup process
+                break;
+            } else {
+                // Otherwise, we remove the node from its parent
+                int bit = (num >> i) & 1;
+                path[i - 1]->links[bit] = NULL;
+            }
+        }
+    }
+
+      int maxXor(int x){
+        Node* temp = root;
+        int res = 0;
+        for(int i=31; i>=0; i--){
+            int bit = (x>>i)&1;
+            //if it's 0 we want 1
+            //if it's 1 we want 0
+            int req = 1-bit;
+
+            if(temp->contains(req)){
+                res = res | 1<<i;
+                temp = temp->next(req);
+            }
+
+            else{
+                temp = temp->next(bit);
+            }
+
+        }
+        return res;
+    }
+
+};
+int maximumXor(vector<int> A)
+{
+    Trie T;
+    for(auto it: A){
+        T.insert(it);
+    }
+
+    int res = 0;
+
+    for(auto it: A){
+        res = max(res, T.maxXor(it));
+    } 
+
+    return res;  
+}
