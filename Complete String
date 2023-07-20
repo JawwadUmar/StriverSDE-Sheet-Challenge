@@ -1,0 +1,100 @@
+#include <bits/stdc++.h>
+class Node{
+    public:
+    Node* children[26];
+    bool isTerminal;
+
+    bool contains(char ch){
+        int idx = ch - 'a';
+
+        if(children[idx] != NULL){
+            return true;
+        }
+        return false;
+    }
+
+    Node* next(char ch){
+        int idx = ch -'a';
+
+        return children[idx];
+    }
+
+    Node(){
+        for(int i=0; i<26; i++){
+            children[i] = NULL;
+        }
+
+        isTerminal = false;
+    }
+};
+
+class Trie{
+    public:
+    Node* root;
+
+    Trie(){
+        root = new Node();
+    }
+
+    void insert(string word){
+        Node* temp = root;
+
+        for(int i=0; i<word.size(); i++){
+            if(temp->contains(word[i]) ==false){
+                temp->children[word[i] -'a'] = new Node();
+            }
+            temp = temp->next(word[i]);
+        }
+
+        temp->isTerminal = true;
+    }
+
+    bool isCompleteString(string word){
+        Node* temp = root;
+
+        for(int i=0; i<word.size(); i++){
+            if(temp->contains(word[i]) ==false){
+                return false;
+            }
+
+            else{
+                temp = temp->next(word[i]);
+                if(temp->isTerminal ==false){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};
+string completeString(int n, vector<string> &a){
+
+    Trie T;
+
+    for(auto it: a){
+        T.insert(it);
+    }
+
+    string res ="";
+
+    for(auto it: a){
+        if(T.isCompleteString(it)){
+            if(it.size() > res.size()){
+                res = it;
+            }
+
+            else if(it.size() == res.size()){
+                if(it < res){
+                    res = it;
+                }
+            }
+        }
+    }
+
+    if(res ==""){
+        return "None";
+    }
+
+    return res;
+
+}
