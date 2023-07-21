@@ -1,0 +1,110 @@
+#include <bits/stdc++.h>
+
+class Node{
+	public:
+	Node* children[2];
+
+	Node(){
+		children[0] = NULL;
+		children[1] = NULL;
+	}
+
+	Node* next(int bit){
+		return children[bit];
+	}
+
+	bool contains(int bit){
+		return children[bit]!= NULL;
+	}
+};
+
+class Trie{
+	public:
+	Node* root;
+
+	Trie(){
+		root = new Node();
+	}
+
+	void insert(int num){
+		Node* temp = root;
+
+		for(int i=31; i>=0; i--){
+			int bit = (num>>i)&1;
+
+			if(temp->contains(bit) ==false){
+				temp->children[bit] = new Node();
+			}
+
+			temp = temp->next(bit);
+		}
+	}
+
+	int maxXor(int num){
+		int res = 0;
+
+		Node* temp = root;
+
+		for(int i=31; i>=0; i--){
+			int bit = (num>>i)&1;
+			int reqbit = 1^bit; //or 1-bit
+
+			if(temp->contains(reqbit)){
+				res = res | (1<<i);
+				temp = temp->next(reqbit);
+			}
+
+			else{
+				temp = temp->next(bit);
+			}
+		}
+
+		return res;
+	}
+};
+
+
+vector<int> maxXorQueries(vector<int> &arr, vector<vector<int>> &queries){
+
+	int m = queries.size();
+
+	vector<int> res;
+	res.resize(m, -1);
+	Trie T;
+
+	//create offline query
+	vector<vector<int>> q;
+	int index = 0;
+
+	for(int i=0; i<m; i++){
+		int xi = queries[i][0];
+		int ai = queries[i][1];
+
+		q.push_back({ai, xi, i});
+	}
+
+	sort(q.begin(), q.end());
+	sort(arr.begin(), arr.end());
+
+	for(int i=0; i<m; i++){
+		int ai = q[i][0];
+		int xi = q[i][1];
+		int idx = q[i][2];
+
+		while(index< arr.size()){
+			if(arr[index]<= ai){
+				T.insert(arr[index]);
+				index++;
+			}
+
+			else{
+				break;
+			}
+		}
+
+		int ans = (index==0)?-1 :T.maxXor(xi);
+		res[idx] = ans;
+	}
+
+	return res;
+}
