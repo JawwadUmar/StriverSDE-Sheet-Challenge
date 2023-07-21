@@ -1,0 +1,51 @@
+#include <bits/stdc++.h> 
+class Queue {
+private:
+int qfront;
+int qback;
+int size;
+int *arr;
+public:
+    Queue() {
+        qfront = 0;
+        qback = 0;
+        size = 100001;
+        arr = new int[size];
+    }
+
+    /*----------------- Public Functions of Queue -----------------*/
+
+    bool isEmpty() {
+        return qfront == qback;
+    }
+
+    void enqueue(int data) {
+        
+        arr[qback] = data;
+        qback++;
+        
+    }
+
+    int dequeue() {
+        if(qfront ==qback){
+            return -1;
+        }
+
+        int res = arr[qfront];
+        qfront++;
+
+        if(qfront ==qback){
+            qfront = 0;
+            qback = 0;
+        }
+
+        return res;
+        
+    }
+
+    int front() {
+        // Implement the front() function
+
+        return qfront ==qback ? -1: arr[qfront];
+    }
+};
