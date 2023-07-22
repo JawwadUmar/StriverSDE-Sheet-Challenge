@@ -1,0 +1,27 @@
+#include <bits/stdc++.h> 
+
+vector<int> nextGreater(vector<int> &arr, int n) {
+
+    stack<pair<int, int>> st;
+    vector<int> res(n, -1);
+
+    for(int i=0; i<n; i++){
+        if(st.empty() || st.top().first>=arr[i]){
+            st.push({arr[i], i});
+            continue;
+        }
+
+        while(st.top().first < arr[i]){
+            res[st.top().second] = arr[i];
+            st.pop();
+
+            if(st.empty()){
+                break;
+            }
+        }
+        st.push({arr[i], i});
+    }
+
+    return res;
+
+}
