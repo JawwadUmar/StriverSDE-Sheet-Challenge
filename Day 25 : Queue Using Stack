@@ -1,28 +1,51 @@
-bool f(char a, char b){
-    if(a=='{' && b =='}' || a=='[' && b==']' || a=='(' && b==')'){
-        return true;
+class Queue {
+    // Define the data members(if any) here.
+    private:
+    stack<int> st1;
+    stack<int> st2;
+    public:
+    Queue() {
+        // Initialize your data structure here.
     }
 
-    return  false;
-}
-
-bool isValidParenthesis(string s)
-{
-    stack<char> st;
-
-    for(int i=0; i<s.size(); i++){
-        if(st.empty()){
-            st.push(s[i]);
+    void enQueue(int val) {
+        // Implement the enqueue() function.
+        
+        //copy st1 to st2
+        while(!st1.empty()){
+            st2.push(st1.top());
+            st1.pop();
         }
 
-        else if(f(st.top(),s[i])){
-            st.pop();
-        }
+        st2.push(val);
 
-        else{
-            st.push(s[i]);
+        while(!st2.empty()){
+            st1.push(st2.top());
+            st2.pop();
         }
     }
 
-    return st.empty();
-}
+    int deQueue() {
+        // Implement the dequeue() function.
+        if(st1.empty()){
+            return -1;
+        }
+        int x = st1.top();
+        st1.pop();
+        return x;
+    }
+
+    int peek() {
+        // Implement the peek() function here.
+        if(st1.empty()){
+            return -1;
+        }
+        int x = st1.top();
+        return x;
+    }
+
+    bool isEmpty() {
+        // Implement the isEmpty() function here.
+        return st1.empty();
+    }
+};
