@@ -1,0 +1,147 @@
+#include <bits/stdc++.h> 
+
+class Node{
+    public:
+    Node* prev;
+    Node* next;
+    int cnt;
+    int key;
+    int value;
+
+    Node(int key, int value){
+        this->key = key;
+        this->value = value;
+        cnt = 1;
+        prev = NULL;
+        next = NULL;
+    }
+};
+
+class List{
+    public:
+    int size;
+    Node* head;
+    Node* tail;
+
+    List(){
+        head = new Node(-1, -1);
+        tail = new Node(-1, -1);
+
+
+        head->next = tail;
+        tail->prev = head;
+        size = 0;
+    }
+
+    void addFront(Node* temp){
+        Node* forward = head->next;
+
+        temp->next = forward;
+        temp->prev = head;
+
+        head->next = temp;
+        forward->prev = temp;
+
+        size++;
+    }
+
+    void removeNode(Node* temp){
+        Node* forward = temp->next;
+        Node* backward = temp->prev;
+
+        backward->next = forward;
+        forward->prev = backward;
+
+        size--;
+    }
+};
+
+
+
+class LFUCache
+{
+public:
+int capacity;
+map<int , Node*> mp1;
+map<int, List*> mp2;
+int minFreq;
+int currSize;
+
+    LFUCache(int capacity)
+    {
+        // Write your code here.
+        this->capacity = capacity;
+        minFreq = 0;
+        currSize = 0;
+    }
+
+    int get(int key)
+    {
+        // Write your code here.
+        if(mp1.find(key) == mp1.end()){
+            return -1;
+        }
+        Node* temp = mp1[key];
+        int res = temp->value;
+
+        updateFreqList(temp);
+
+        return res;
+    }
+
+    void put(int key_, int x)
+    {
+        // Write your code here.
+        if(capacity ==0){
+            return;
+        }
+
+        if(mp1.find(key_) ==mp1.end()){
+            if(currSize ==capacity){
+                List* v = mp2[minFreq];
+
+                //remove the LRU in the LFU
+                mp1.erase(v->tail->prev->key);
+                v->removeNode(v->tail->prev);
+                currSize--;
+            }
+            currSize++;
+            minFreq = 1; //(it's a new element)
+            List* v = new List();
+
+            if(mp2.find(minFreq) != mp2.end()){
+                v = mp2[minFreq];
+            }
+
+            Node* temp = new Node(key_, x);
+            v->addFront(temp);
+            mp1[key_] = temp;
+            mp2[minFreq] = v;
+        }
+
+        else{
+            Node* temp = mp1[key_];
+            temp->value = x;
+            updateFreqList(temp);
+        }
+    }
+
+    void updateFreqList(Node* temp){
+        mp1.erase(temp->key);
+        List* v = mp2[temp->cnt];
+        v->removeNode(temp);
+
+        if(temp->cnt ==0 && v->size ==0){
+            minFreq++;
+        }
+
+        List *nextHigher = new List();
+        if(mp2.find(temp->cnt +1) != mp2.end()){
+            nextHigher = mp2[temp->cnt +1];
+        }
+        temp->cnt+=1;
+        nextHigher->addFront(temp);
+        mp2[temp->cnt] = nextHigher;
+        mp1[temp->key] = temp;
+    }
+};
