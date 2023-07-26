@@ -1,0 +1,104 @@
+#include <bits/stdc++.h>
+
+vector<int> nextSmaller(vector<int> &arr)
+{
+    //it begins at the end
+    int n = arr.size();
+    stack<int> st;
+    vector<int> res(n);
+
+    for(int i=n-1; i>=0; i--){
+        if(st.empty()){
+            res[i] = -1;
+            st.push(i);
+        }
+
+        else if(arr[i] > arr[st.top()]){
+            res[i] = st.top();
+            st.push(i);
+        }
+
+        else{
+            while(st.empty() ==false){
+                if(arr[st.top()] < arr[i]){
+                    res[i] = st.top();
+                    st.push(i);
+                    break;
+                }
+
+                st.pop();
+            }
+
+            if(st.empty()){
+                st.push(i);
+                res[i] = -1;
+            }
+        }
+    }
+
+    return res;
+}
+
+
+vector<int> prevSmaller(vector<int> &arr){
+  //it begins at the end
+    int n = arr.size();
+    stack<int> st;
+    vector<int> res(n);
+
+    for(int i=0; i<n; i++){
+        if(st.empty()){
+            res[i] = -1;
+            st.push(i);
+        }
+
+        else if(arr[i] > arr[st.top()]){
+            res[i] = st.top();
+            st.push(i);
+        }
+
+        else{
+            while(st.empty() ==false){
+                if(arr[st.top()] < arr[i]){
+                    res[i] = st.top();
+                    st.push(i);
+                    break;
+                }
+
+                st.pop();
+            }
+
+            if(st.empty()){
+                st.push(i);
+                res[i] = -1;
+            }
+        }
+    }
+
+    return res;
+}
+ 
+ int largestRectangle(vector <int> & heights) {
+
+   vector<int> next = nextSmaller(heights);
+   vector<int> prev = prevSmaller(heights);
+   int area = INT_MIN;
+
+   for(int i=0; i<heights.size(); i++){
+     int h = heights[i];
+     int left = prev[i];
+     int right = next[i];
+
+     if(next[i] ==-1){
+       next[i] = heights.size();
+     }
+
+     int w = next[i] - prev[i] -1;
+
+     int newArea = h*w;
+     area = max(area, newArea);
+
+   }
+
+   return area; 
+ }
