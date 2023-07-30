@@ -1,0 +1,35 @@
+#include <bits/stdc++.h> 
+vector<int> findSpans(vector<int> &arr) {
+
+    vector<int> prevIndex;
+    stack<int> st;
+
+    for(int i=0; i<arr.size(); i++){
+        if(i==0){
+            st.push(i);
+            prevIndex.push_back(1);
+            continue;
+        }
+
+        else if(arr[i]< arr[st.top()]){
+            prevIndex.push_back(i-st.top());
+            st.push(i);
+        }
+
+        else{
+            while(!st.empty() && arr[i] >= arr[st.top()]){
+                st.pop();
+            }
+            if(st.empty()){
+                prevIndex.push_back(i+1);
+            }
+            else{
+               prevIndex.push_back(i-st.top()); 
+            }
+
+            st.push(i);
+        }
+    }
+
+    return prevIndex;
+}
