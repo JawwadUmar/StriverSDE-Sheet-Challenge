@@ -1,0 +1,28 @@
+string reverseString(string &str){
+	// Write your code here.
+	vector<string> v;
+	string aux;
+	for(int i=0; i<str.size(); i++){
+		if(str[i] ==' '){
+			if(aux.size()){
+				v.push_back(aux);
+			}
+			aux.clear();
+			continue;
+		}
+
+		aux.push_back(str[i]);
+	}
+
+		if(aux.size()){
+		v.push_back(aux);
+	}
+	reverse(v.begin(), v.end());
+	string res = "";
+
+	for(auto it: v){
+		res+= it+" ";
+	}	
+	res.pop_back();
+	return res;
+}
