@@ -1,0 +1,68 @@
+int romanToInt(string s) {
+     map<char, int> mp;
+        mp['I'] = 1;
+        mp['V'] = 5;
+        mp['X'] = 10;
+        mp['L'] = 50;
+        mp['C'] = 100;
+        mp['D'] = 500;
+        mp['M'] = 1000;
+
+        int n = s.size();
+        int res = 0;
+        bool I = false;
+        bool X = false;
+        bool C = false;
+
+        for(int i=n-1; i>=0; i--){
+            
+            if(s[i] =='I'){
+                if(!I){
+                    res+=1;
+                }
+                else{
+                    res-=1;
+                }
+                continue;
+            }
+
+            if(s[i] =='X'){
+                if(!X){
+                    res+=10;
+                }
+
+                else{
+                    res-=10;
+                }
+                I = true;
+                continue;
+            }
+
+            if(s[i] =='C'){
+                if(!C){
+                    res+=100;
+                }
+                else{
+                    res-=100;
+                }
+                X = true;
+                continue;
+            }
+
+            if(s[i] =='D' || s[i] =='M'){
+                C = true;
+            }
+
+            if(s[i] =='V' || s[i] =='X'){
+                I = true;
+            }
+
+            if(s[i] =='L' || s[i] =='C'){
+                X = true;
+            }
+
+            res+= mp[s[i]];
+        }
+
+        return res;
+}
