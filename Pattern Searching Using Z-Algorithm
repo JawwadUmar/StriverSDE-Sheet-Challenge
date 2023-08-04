@@ -1,0 +1,55 @@
+vector<int> search(string txt, string pat) {
+
+    string s = pat+ "$" + txt;
+
+    int left = 0;
+    int right = 0;
+    int len = pat.size();
+    vector<int> res;
+
+    vector<int> z(s.size(), 0);
+
+    for(int i=1; i<s.size(); i++){
+
+        int n = s.size();
+
+        if(i> right){
+            right = i;
+            left = i;
+
+            while(right<n && s[right] ==s[right-left]){
+                right++;
+            }
+
+            z[i] = right-left;
+            right--;
+        }
+
+        else{
+            int j = i - left;
+
+            if(right-i+1 > z[j]){
+                z[i] = z[j];
+            }
+
+            else{
+                left = i;
+
+                while(right<n && s[right] ==s[right-left]){
+                    right++;
+                }
+
+                z[i] = right-left;
+                right--;
+            }
+        }
+
+        if(z[i] ==len){
+            res.push_back(i-len);
+        }
+    }
+
+    return res;
+
+    
+}
