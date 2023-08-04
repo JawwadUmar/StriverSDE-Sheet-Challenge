@@ -1,0 +1,33 @@
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& v) {
+
+        int sz = INT_MAX;
+        for(auto it: v){
+            int curr = it.size();
+            sz = min(curr, sz);
+        }
+
+        while(sz){
+            string s = v[0].substr(0, sz);
+            bool k = false;
+
+            for(auto it: v){
+                string p = it.substr(0, sz);
+                if(p!=s){
+                    k = true;
+                    break;
+                }
+            }
+
+            if(k){
+                sz--;
+            }
+            else{
+                break;
+            }
+        }
+        cout<<sz<<endl;
+        return v[0].substr(0, sz);
+    }
+};
