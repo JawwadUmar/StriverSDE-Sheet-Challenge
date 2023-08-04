@@ -1,0 +1,49 @@
+#include <bits/stdc++.h> 
+/*
+    Following is Binary Tree Node structure:
+    class TreeNode
+    {
+    public:
+        int data;
+        TreeNode *left, *right;
+        TreeNode() : data(0), left(NULL), right(NULL) {}
+        TreeNode(int x) : data(x), left(NULL), right(NULL) {}
+        TreeNode(int x, TreeNode *left, TreeNode *right) : data(x), left(left), right(right) {}
+    };
+*/
+vector<int> getInOrderTraversal(TreeNode *root)
+{
+    vector<int> res;
+
+    TreeNode* curr = root;
+
+    while(curr){
+
+        if(curr->left ==NULL){
+            // res.push_back(curr->data);
+            curr = curr->right;
+        }
+
+        else{
+            
+        TreeNode * forward = curr->left;
+        while(forward->right && forward->right!= curr){
+            forward = forward->right;
+        }
+
+        if(forward->right ==NULL){
+            forward->right = curr;
+            curr = curr->left;
+        }
+
+        else if(forward->right ==curr){
+            forward->right = NULL;
+            // res.push_back(curr->data);
+            curr = curr->right;
+        }
+            
+        }
+    }
+
+    return res;
+}
