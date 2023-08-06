@@ -1,0 +1,76 @@
+#include <bits/stdc++.h> 
+/************************************************************
+
+Following is the Binary Tree node class
+    
+template <typename T = int>
+class TreeNode
+{
+public:
+    T data;
+    TreeNode<T> *left;
+    TreeNode<T> *right;
+
+    TreeNode(T val)
+    {
+        this->data = val;
+        left = NULL;
+        right = NULL;
+    }
+
+    ~TreeNode()
+    {
+        if (left != NULL)
+        {
+            delete left;
+        }
+        if (right != NULL)
+        {
+            delete right;
+        }
+    }
+};
+
+************************************************************/
+
+vector<int> zigzagTreeTraversal(TreeNode<int> *root)
+{
+    stack<TreeNode<int>*> st1;
+    stack<TreeNode<int>*> st2;
+    st1.push(root);
+    vector<int> v;
+
+    while(!st1.empty() || !st2.empty()){
+        
+        while(!st1.empty()){
+            TreeNode<int>* curr = st1.top();
+            st1.pop();
+            v.push_back(curr->data);
+
+            if(curr->left){
+                st2.push(curr->left);
+            }
+
+            if(curr->right){
+                st2.push(curr->right);
+            }
+        }
+
+        while(!st2.empty()){
+            TreeNode<int>* curr = st2.top();
+            st2.pop();
+            v.push_back(curr->data);
+
+            if(curr->right){
+                st1.push(curr->right);
+            }
+
+            if(curr->left){
+                st1.push(curr->left);
+            }
+        }
+    }
+
+    return v;
+
+}
