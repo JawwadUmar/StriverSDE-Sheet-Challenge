@@ -1,0 +1,38 @@
+class Solution {
+public:
+vector<int> pre;
+vector<int> in;
+map<int, int> mp;
+int n;
+
+TreeNode* f(int preStart, int preEnd, int inStart, int inEnd){
+
+    //Base Case
+    if(preStart > preEnd || inStart > inEnd){
+        return NULL;
+    }
+    TreeNode* x = new TreeNode(pre[preStart]);
+
+    int position_in_Inorder = mp[pre[preStart]];
+    int total_elements_on_left = position_in_Inorder - inStart;
+    int total_elements_on_right = n - position_in_Inorder;
+
+    x ->left = f(preStart+1, preStart+total_elements_on_left, inStart,   position_in_Inorder -1);
+
+    x->right = f(preStart+total_elements_on_left+1, preEnd, position_in_Inorder+1, inEnd);
+
+    return x;
+}
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        pre = preorder;
+        in = inorder;
+        n = in.size();
+
+        for(int i=0; i<in.size(); i++){
+            mp[in[i]] = i;
+        }
+
+        return f(0, n-1, 0, n-1);
+
+    }
+};
