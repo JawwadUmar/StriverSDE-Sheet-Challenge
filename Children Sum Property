@@ -1,0 +1,24 @@
+bool isParentSum(Node *root){
+
+    if(root ==NULL){
+        return true; 
+    }
+    if(root->left ==NULL && root->right ==NULL){
+        return true;
+    }
+
+    int x = root->data;
+
+    int l = 0;
+    int r = 0;
+
+    if(root->left){
+        l = root->left->data;
+    }
+
+    if(root->right){
+        r = root->right->data;
+    }
+
+    return x ==(l+r) && isParentSum(root->left) && isParentSum(root->right);
+}
