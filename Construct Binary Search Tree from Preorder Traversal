@@ -1,0 +1,20 @@
+TreeNode* bstFromPreorder(int &idx, int ub, vector<int>& preorder) {
+    int n = preorder.size();
+
+    if(idx ==n || preorder[idx] > ub){
+        return NULL;
+    }
+
+    TreeNode* x = new TreeNode (preorder[idx]);
+    idx++;
+
+    x ->left = bstFromPreorder(idx, x->val, preorder);
+    x->right = bstFromPreorder(idx, ub, preorder);
+    
+    return x;
+}
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        int idx = 0;
+        return bstFromPreorder(idx, INT_MAX, preorder);
+    }
+};
