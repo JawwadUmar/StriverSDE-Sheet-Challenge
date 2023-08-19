@@ -1,0 +1,35 @@
+class Solution {
+public:
+map<Node*, Node*> mp;
+
+void DFS(Node* node, Node* clone){
+
+    for(auto it: node->neighbors){
+
+        if(mp.find(it) ==mp.end()){
+            Node* temp = new Node(it->val);
+            mp[it] = temp;
+            clone->neighbors.push_back(mp[it]);
+            DFS(it, temp);
+        }
+
+        else{
+            clone->neighbors.push_back(mp[it]);
+        }
+    }
+}
+
+
+    Node* cloneGraph(Node* node) {
+        if(node == NULL){
+            return NULL;
+        }
+
+        Node* clone = new Node(node->val);
+        mp[node] = clone;
+
+        DFS(node, clone);
+
+        return clone;
+    }
+};
